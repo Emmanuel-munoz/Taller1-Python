@@ -1,41 +1,40 @@
-"""
-service.py
-Este archivo contiene las funciones CRUD del programa.
-"""
+from colorama import Fore, Style, init
+from validate import validate_customer
+from file import load_data, save_data
 
-# ---------------------------------- IMPORTACIONES ----------------------------------
-from colorama import Fore, Style, Back, init # Para imprimir mensajes en colores
-init(autoreset=True) # Para que los colores se restablezcan automáticamente después de
+init(autoreset=True)
 
-from validate import validate_customer # Importamos la función de validación desde el archivo validate.py
-
-# ---------------------------------- CÓDIGO PRINCIPAL ----------------------------------
-# Listado de clientes
-customers = []
-
-# Módelo de cliente
 class Customer:
-  def __init__(self, id, name, email, phone):
-    self.id = id
-    self.name = name
-    self.email = email
-    self.phone = phone
+    def __init__(self, id, name, email, phone):
+        self.id = id
+        self.name = name
+        self.email = email
+        self.phone = phone
 
-# ----- Función para registrar un cliente -----
+    def to_dict(self):
+        return {"id": self.id, "name": self.name, "email": self.email, "phone": self.phone}
+
+# Cargar datos al iniciar el módulo
+raw_data = load_data()
+customers = [Customer(**c) for c in raw_data]
+
 def register_customer(id, name, email, phone):
-  if validate_customer(customers, id, email): # Si la validación es exitosa, se registra el cliente
-    new_customer = Customer(id, name, email, phone)
-    customers.append(new_customer)
-    return True
-  return False
+    if validate_customer(customers, id, email):
+        new_customer = Customer(id, name, email, phone)
+        customers.append(new_customer)
+        
+        # Persistencia: Convertir lista de objetos a lista de diccionarios y guardar
+        data_to_save = [c.to_dict() for c in customers]
+        if save_data(data_to_save):
+            return True
+    return False
 
-# ----- Función para ver un cliente por ID -----
 def view_customer(id):
-  for customer in customers:
-    if customer.id == id:
-      return customer
-  return None
+    for customer in customers:
+        if str(customer.id) == str(id):
+            return customer
+    return None
 
-# ----- Función para ver todos los clientes -----
 def view_all_customers():
-  return customers
+    # Retornamos la lista cargada (que ya incluye lo del JSON)
+    return customers

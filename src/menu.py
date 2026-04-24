@@ -1,76 +1,78 @@
 """
 menu.py
-Este archivo contiene el menú interactivo para el programa.
-Se utiliza try-catch para manejar los errores
+Este archivo contiene la lógica de la interfaz de usuario por consola.
 """
 
-
 # ---------------------------------- IMPORTACIONES ----------------------------------
-from colorama import Fore, Style, Back, init # Para imprimir mensajes en colores
-init(autoreset=True) # Para que los colores se restablezcan automáticamente después de cada impresión
+from colorama import Fore, Style, init
+from service import register_customer, view_all_customers, view_customer
 
-from service import register_customer, view_customer, view_all_customers # Importamos las funciones del archivo service.py
-
+init(autoreset=True)
 
 # ---------------------------------- CÓDIGO PRINCIPAL ----------------------------------
-# Función para mostrar el menú principal
+
 def show_menu():
-  print(Fore.CYAN + Style.BRIGHT + '============================== Menú Principal ==============================')
-  print(Fore.CYAN + Style.BRIGHT + '1. Registrar cliente')
-  print(Fore.CYAN + Style.BRIGHT + '2. Ver cliente por ID')
-  print(Fore.CYAN + Style.BRIGHT + '3. Ver todos los clientes')
-  print(Fore.CYAN + Style.BRIGHT + '4. Salir')
-  print(Fore.CYAN + Style.BRIGHT + '==========================================================================\n')
+    """Imprime las opciones disponibles en pantalla."""
+    print(Fore.CYAN + Style.BRIGHT + "\n--- MENÚ DE GESTIÓN ---")
+    print("1. Registrar nuevo cliente")
+    print("2. Buscar cliente por ID")
+    print("3. Listar todos los clientes")
+    print("4. Salir")
+    print(Fore.CYAN + "-----------------------")
 
-  # Función para manejar la opción seleccionada por el usuario
 def handle_option(option):
-  # Opción 1: Registrar cliente
-  if option == '1':
-    try:
-      print(Fore.CYAN + Style.BRIGHT + '\nRegistrando un nuevo cliente...')
-      id = input('Ingrese el ID del cliente: ')
-      name = input('Ingrese el nombre del cliente: ')
-      email = input('Ingrese el email del cliente: ')
-      phone = input('Ingrese el teléfono del cliente: ')
+    """Ejecuta la acción correspondiente a la opción seleccionada."""
+    
+    if option == '1':
+        print(Fore.YELLOW + "\n>> FORMULARIO DE REGISTRO")
+        try:
+            id = input("ID: ").strip()
+            name = input("Nombre: ").strip()
+            email = input("Email: ").strip()
+            phone = input("Teléfono: ").strip()
 
-      if register_customer(id, name, email, phone): # Si el registro es exitoso, se muestra un mensaje de éxito
-        print(Fore.GREEN + Style.BRIGHT + 'Cliente registrado exitosamente.\n')
-      else:
-        print(Fore.RED + Style.BRIGHT + 'Error al registrar el cliente.\n')
-    except Exception as e:
-      print(Fore.RED + Style.BRIGHT + f'Error al registrar el cliente: {e}\n')
+            if not id or not name or not email:
+                print(Fore.RED + "Error: ID, Nombre y Email son campos obligatorios.")
+                return
 
-# Opción 2: Ver cliente por ID
-  elif option == '2':
-    try:
-      print(Fore.CYAN + Style.BRIGHT + '\nBuscando cliente por ID...')
-      id = input('Ingrese el ID del cliente a buscar: ')
-      customer = view_customer(id)
+            if register_customer(id, name, email, phone):
+                print(Fore.GREEN + Style.BRIGHT + "✔ Cliente registrado y guardado exitosamente.")
+            else:
+                print(Fore.RED + "✘ No se pudo completar el registro (ID o Email duplicados).")
+        except Exception as e:
+            print(Fore.RED + f"Error al procesar el registro: {e}")
 
-      if customer: # Si el cliente es encontrado, se muestra su información
-        print(Fore.GREEN + Style.BRIGHT + f'Cliente encontrado: {customer.name} - {customer.email} - {customer.phone}\n')
-      else:
-        print(Fore.RED + Style.BRIGHT + 'Cliente no encontrado.\n')
-    except Exception as e:
-      print(Fore.RED + Style.BRIGHT + f'Error al buscar el cliente: {e}\n')
+    elif option == '2':
+        print(Fore.YELLOW + "\n>> BUSCAR CLIENTE")
+        search_id = input("Ingrese el ID del cliente: ").strip()
+        customer = view_customer(search_id)
+        
+        if customer:
+            print(Fore.GREEN + "\n--- Datos del Cliente ---")
+            print(f"ID: {customer.id}")
+            print(f"Nombre: {customer.name}")
+            print(f"Email: {customer.email}")
+            print(f"Teléfono: {customer.phone}")
+        else:
+            print(Fore.RED + f"No se encontró ningún cliente con el ID: {search_id}")
 
-  # Opción 3: Ver todos los clientes
-  elif option == '3':
-    try:
-      print(Fore.CYAN + Style.BRIGHT + '\nMostrando todos los clientes...')
-      customers = view_all_customers()
+    elif option == '3':
+        print(Fore.YELLOW + "\n>> LISTADO GENERAL DE CLIENTES")
+        customers = view_all_customers()
+        
+        if not customers:
+            print(Fore.WHITE + "No hay clientes registrados en la base de datos.")
+        else:
+            # Encabezado de tabla simple
+            print(Fore.BLUE + f"{'ID':<10} {'NOMBRE':<20} {'EMAIL':<25} {'TELÉFONO':<15}")
+            print("-" * 70)
+            for c in customers:
+                print(f"{c.id:<10} {c.name:<20} {c.email:<25} {c.phone:<15}")
 
-      if customers: # Si hay clientes registrados, se muestra la información de cada uno
-        for customer in customers:
-          print(Fore.GREEN + Style.BRIGHT + f'Cliente: {customer.name} - {customer.email} - {customer.phone}\n')
-      else:
-        print(Fore.RED + Style.BRIGHT + 'No hay clientes registrados.\n')
-    except Exception as e:
-      print(Fore.RED + Style.BRIGHT + f'Error al mostrar los clientes: {e}\n')
+    elif option == '4':
+        # La lógica de salida se maneja en el break del main.py,
+        # así que aquí no necesitamos hacer nada extra.
+        pass
 
-  # Opción 4: Salir del programa
-  elif option == '4':
-    print(Fore.CYAN + Style.BRIGHT + 'Saliendo del programa...\n')
-
-  else:
-    print(Fore.RED + Style.BRIGHT + 'Opción no válida. Por favor, seleccione una opción del menú.\n')
+    else:
+        print(Fore.RED + "Opción no válida. Por favor, intente de nuevo.")
