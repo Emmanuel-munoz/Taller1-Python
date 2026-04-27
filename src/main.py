@@ -1,35 +1,29 @@
 """
 main.py
-Este es el archivo principal.
-Aquí se importan las funciones necesarias para el funcionamiento del programa.
-Se utiliza try-catch para manejar los errores inesperados.
+Archivo principal del sistema
 """
 
+from colorama import Fore, Style, init
+init(autoreset=True)
 
-# ---------------------------------- IMPORTACIONES ----------------------------------
-from colorama import Fore, Style, Back, init # Para imprimir mensajes en colores
-init(autoreset=True) # Para que los colores se restablezcan automáticamente después de cada impresión
+from menu import show_menu, handle_option
 
-from menu import show_menu, handle_option # Importamos las funciones del archivo menu.py
 
-# ---------------------------------- CÓDIGO PRINCIPAL ----------------------------------
-# Mensaje de bienvenida
-print(Fore.YELLOW + Style.BRIGHT + '===========================================================================================================')
-print(Fore.RED + Style.BRIGHT + '=============================== Bienvenido al Sistema de Gestión de Clientes ==============================')
-print(Fore.RED + Style.BRIGHT + '===========================================================================================================\n')
+print(Fore.YELLOW + Style.BRIGHT + '=' * 100)
+print(Fore.RED + Style.BRIGHT + '==== Bienvenido al Sistema de Gestión de Clientes ====')
+print(Fore.YELLOW + Style.BRIGHT + '=' * 100 + '\n')
 
-# Bucle principal del programa
+
 while True:
-  try:
-    show_menu() # Mostramos el menú principal
-    option = input('Seleccione un1' \
-    'a opción: ') # Solicitamos al usuario que seleccione una opción
-    handle_option(option) # Manejar la opción seleccionada por el usuario
+    try:
+        show_menu()
+        option = input('Seleccione una opción: ').strip()
 
-    if option == '4': # Si el usuario selecciona la opción de salir, se muestra un mensaje de despedida y se rompe el bucle
-      print(Fore.BLUE + Style.BRIGHT + '============================================================================================')
-      print(Fore.BLUE + Style.BRIGHT + '======================== Gracias por usar el sistema. ¡Hasta luego! ========================')
-      print(Fore.BLUE + Style.BRIGHT + '============================================================================================\n')
-      break
-  except Exception as e:
-    print(Fore.RED + Style.BRIGHT + f'Error inesperado: {e}')
+        if option == '6':  
+            print(Fore.BLUE + Style.BRIGHT + 'Gracias por usar el sistema. ¡Hasta luego!')
+            break
+
+        handle_option(option)
+
+    except Exception as e:
+        print(Fore.RED + Style.BRIGHT + f'Error inesperado: {e}')
