@@ -5,7 +5,13 @@ Este archivo contiene la lógica de la interfaz de usuario por consola.
 
 # ---------------------------------- IMPORTACIONES ----------------------------------
 from colorama import Fore, Style, init
-from service import register_customer, view_all_customers, view_customer
+from service import (
+    new_register,
+    list_records,
+    search_record,
+    update_record,
+    delete_record
+)
 
 init(autoreset=True)
 
