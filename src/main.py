@@ -19,7 +19,7 @@ while True:
         show_menu()
         option = input('Seleccione una opción: ').strip()
 
-        if option == '6':  
+        if option == '9':  
             print(Fore.BLUE + Style.BRIGHT + 'Gracias por usar el sistema. ¡Hasta luego!')
             break
 

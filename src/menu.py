@@ -2,7 +2,7 @@
 menu.py
 Interfaz de usuario por consola
 """
-
+from integration import export_to_csv, generate_report
 from colorama import Fore, Style, init
 from service import (
     new_register,
@@ -22,7 +22,9 @@ def show_menu():
     print("3. Listar todos los clientes")
     print("4. Actualizar cliente")
     print("5. Eliminar cliente")
-    print("6. Salir")
+    print("7. Exportar reporte CSV")
+    print("8. Filtrar reporte")
+    print("9. Salir")
     print(Fore.CYAN + "-----------------------")
 
 
@@ -112,6 +114,25 @@ def handle_option(option):
         else:
             print(Fore.CYAN + "Operación cancelada")
 
+    #==========================
+    # EXPORT CSV
+    # ==========================
+    elif option == '7':
+        export_to_csv()
+
+    #==========================
+    # FILTRO DINAMICO
+    # =========================
+    elif option =='8':
+        print(Fore.YELLOW + "\n FILTRAR REPORTE")
+
+        campo = input("Campo (id, name, email, phone): ").strip()
+        valor = input("Valor a buscar: ").strip()
+
+        generate_report(**{campo: valor})
+
+    
+
     # ==========================
     # EXIT
     # ==========================
@@ -120,3 +141,4 @@ def handle_option(option):
 
     else:
         print(Fore.RED + "Opción no válida")
+        
