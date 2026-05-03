@@ -1,37 +1,37 @@
-"# Taller1-Python" 
-<!-- 
-Guía para ejecutar el proyecto
-Sigue estos pasos cuidadosamente para poder ejecutar el proyecto en tu computadora:
 
-Paso 1: Copiar el repositorio
-- Ve a la página del repositorio en GitHub.
-- Busca el botón verde que dice "Code".
-- Haz clic en ese botón.
-- Copia el enlace que aparece (HTTPS).
 
-Paso 2: Elegir dónde guardar el proyecto
-- Ve a la carpeta donde quieres guardar el proyecto (por ejemplo: Escritorio o Documentos).
-- Haz clic en la barra de búsqueda de la carpeta.
-- Escribe cmd y presiona Enter.
-- Se abrirá la terminal (símbolo del sistema) en esa ubicación.
+## Instalación
 
-Paso 3: Clonar el repositorio
-- En la terminal escribe el siguiente comando:
-- git clone (pega aquí el link que copiaste)
-- Ejemplo:
-- git clone https://github.com/Emmanuel-munoz/Taller1-Python.git
-- Presiona Enter.
-- Espera a que se descargue el proyecto.
+Instalar dependencias con el siguiente comando:
 
-Paso 4: Entrar a la carpeta del proyecto
-- Escribe el siguiente comando:
-- cd TALLER1
-- Ejemplo:
-- cd TALLER1
-- Presiona Enter.
+pip install -r requirements.txt
 
-Paso 5: Ejecutar el proyecto
-- Ahora ejecuta el archivo principal con el siguiente comando:
-- python src/main.py
-- Presiona Enter.
- -->
+## Ejecución del programa
+
+Este proyecto utiliza una estructura modular basada en la carpeta src. Por esta razón no debe ejecutarse directamente con el botón de ejecución del editor.
+
+Forma incorrecta de ejecución:
+
+python src/main.py
+
+Esto puede generar errores de importación.
+
+Forma correcta de ejecución desde la raíz del proyecto:
+
+python -m src.main
+
+## Explicación técnica
+
+El proyecto está organizado como un paquete llamado src y utiliza imports absolutos como:
+
+from src.service import ...
+
+Para que Python reconozca correctamente esta estructura, el programa debe ejecutarse en modo módulo usando la opción -m.
+
+## Ejecución de pruebas
+
+Para ejecutar las pruebas automatizadas:
+
+python -m pytest
+
+

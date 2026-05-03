@@ -1,12 +1,7 @@
-"""
-main.py
-Archivo principal del sistema
-"""
-
 from colorama import Fore, Style, init
 init(autoreset=True)
 
-from menu import show_menu, handle_option
+from src.menu import show_menu, handle_option
 
 
 print(Fore.YELLOW + Style.BRIGHT + '=' * 100)

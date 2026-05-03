@@ -1,10 +1,6 @@
-"""
-menu.py
-Interfaz de usuario por consola
-"""
-from integration import export_to_csv, generate_report
+from src.integration import export_to_csv, generate_report
 from colorama import Fore, Style, init
-from service import (
+from src.service import (
     new_register,
     list_records,
     search_record,
